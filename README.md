@@ -1,150 +1,80 @@
-# Laravel 10 API‑First Project (PHP 8)
+# Laravel 10 Project with Spatie Roles & Permissions + Bootstrap Auth
 
-A starter template for building **API‑first Laravel applications** using PHP 8.1+, Laravel 10, and Sanctum for authentication. Includes authentication, CRUD for products, request validation, and PHPUnit feature tests.
+This project is a Laravel 10 application preconfigured with:
 
----
-
-## Features
-- 🔐 Token‑based authentication using **Laravel Sanctum**
-- 👤 Auth endpoints: Register, Login, Logout
-- 📦 Product CRUD API (Create, Read, Update, Delete)
-- ✅ Validation with Form Requests
-- 🧪 PHPUnit Feature tests for authentication and CRUD
-- ⚡ Uses SQLite in‑memory for fast test runs
+- [Spatie Laravel Permission](https://spatie.be/docs/laravel-permission) for role & permission management
+- [Laravel UI](https://github.com/laravel/ui) with Bootstrap authentication scaffolding (login & registration)
+- Pre-seeded Admin user with roles/permissions
 
 ---
 
-## Installation
+## 🚀 Installation Guide
 
-### Prerequisites
-- PHP >= 8.1
-- Composer
-- SQLite or MySQL
+Follow these steps to set up the project locally.
 
-### Setup
+### 1. Install Laravel
 ```bash
-# Clone project
-git clone <your-repo-url> api-demo
-cd api-demo
+composer create-project laravel/laravel project-name
+cd project-name
+```
 
-# Install dependencies
-composer install
+### 2. Install Spatie Laravel Permission
+```bash
+composer require spatie/laravel-permission
+```
 
-# Copy env file
-cp .env.example .env
+### 3. Publish Vendor Files
+```bash
+php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+```
 
-# Generate app key
-php artisan key:generate
+### 4. Install Laravel UI
+```bash
+composer require laravel/ui
+```
 
-# Run migrations
+### 5. Scaffold Bootstrap Auth (Login & Registration)
+```bash
+php artisan ui bootstrap --auth
+npm install && npm run dev
+```
+
+### 6. Run Migrations
+```bash
 php artisan migrate
 ```
 
-### Install Sanctum
+### 7. Seed Permissions
 ```bash
-composer require laravel/sanctum
-php artisan vendor:publish --provider="Laravel\\Sanctum\\SanctumServiceProvider"
-php artisan migrate
+php artisan db:seed --class=PermissionTableSeeder
 ```
 
----
-
-## API Routes
-
-### Public Routes
-- `POST /api/register` → Register new user
-- `POST /api/login` → Login and receive token
-
-### Protected Routes (require `Authorization: Bearer <token>` header)
-- `POST /api/logout` → Logout (invalidate token)
-- `GET /api/products` → List products
-- `POST /api/products` → Create product
-- `GET /api/products/{id}` → Show product
-- `PUT /api/products/{id}` → Update product
-- `DELETE /api/products/{id}` → Delete product
-
----
-
-## Example Requests
-
-### Register
-```http
-POST /api/register
-Content-Type: application/json
-
-{
-  "name": "Jane Doe",
-  "email": "jane@example.com",
-  "password": "secret123",
-  "password_confirmation": "secret123"
-}
-```
-
-### Login
-```http
-POST /api/login
-Content-Type: application/json
-
-{
-  "email": "jane@example.com",
-  "password": "secret123"
-}
-```
-
-Response:
-```json
-{
-  "user": { "id": 1, "name": "Jane Doe", "email": "jane@example.com" },
-  "token": "1|XyZAbCdEfGh..."
-}
-```
-
-Use the token:
-```
-Authorization: Bearer 1|XyZAbCdEfGh...
-```
-
----
-
-## Running Tests
-
-This project includes PHPUnit Feature tests for auth and products.
-
-Run all tests:
+### 8. Seed Admin User
 ```bash
-php artisan test
+php artisan db:seed --class=CreateAdminUserSeeder
 ```
 
-Run only auth tests:
+### 9. Serve the Application
 ```bash
-php artisan test --filter=AuthTest
-```
-
-Run only product tests:
-```bash
-php artisan test --filter=ProductTest
+php artisan serve
 ```
 
 ---
 
-## Test Coverage (What is tested)
+## 🔑 Default Admin Login
 
-### AuthTest
-- ✅ Register: creates user and returns token
-- ✅ Login: valid credentials return token
-- ✅ Invalid login: returns 401 with validation error
-- ✅ Logout: revokes token
+Use the following credentials to log in as an **Admin**:
 
-### ProductTest
-- ✅ Guests cannot access product routes (401)
-- ✅ Authenticated user can perform full CRUD
-- ✅ Validation errors return 422
+- **Email:** `admin@gmail.com`  
+- **Password:** `admin@123`
 
 ---
 
-## Development Notes
-- Uses **Sanctum tokens** (not cookies) → suitable for mobile apps & SPAs
-- Uses **FormRequest validation** for clean controllers
-- Uses **SQLite memory database** for tests → fast & isolated
-- Extend with API Resources or Swagger docs for production
+## 📦 Features
+
+- Laravel 10 + PHP 8.1+
+- Spatie Roles & Permissions
+- Bootstrap 5 Authentication (Login / Register)
+- Preloaded Admin Role & User
+- Example Seeders (`PermissionTableSeeder`, `CreateAdminUserSeeder`)
  
